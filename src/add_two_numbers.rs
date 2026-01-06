@@ -11,11 +11,52 @@ impl<T> ListNode<T> {
     }
 }
 
-pub fn add_two_numbers<T>(
-    l1: Option<Box<ListNode<T>>>,
-    l2: Option<Box<ListNode<T>>>,
-) -> Option<Box<ListNode<T>>> {
-    todo!()
+pub fn add_two_numbers(
+    l1: Option<Box<ListNode<i32>>>,
+    l2: Option<Box<ListNode<i32>>>,
+) -> Option<Box<ListNode<i32>>> {
+    let mut initial = Some(Box::new(ListNode { val: 0, next: None }));
+    let mut current = &mut initial;
+    let mut current_l1 = l1.clone();
+    let mut current_l2 = l2.clone();
+
+    let mut carry = 0;
+
+    while current_l1.as_ref().is_some() {
+        let cur_l1 = current_l1.unwrap();
+        let cur_l2 = current_l2.unwrap_or_else(|| Box::new(ListNode { val: 0, next: None }));
+
+        let value = cur_l1.val + cur_l2.val + carry;
+        carry = value / 10;
+        let value = value % 10;
+
+        let new_node = Some(Box::new(ListNode {
+            val: value,
+            next: None,
+        }));
+
+        if let Some(cur) = current {
+            cur.next = new_node;
+            current = &mut cur.next;
+        }
+
+        current_l1 = cur_l1.next;
+        current_l2 = cur_l2.next;
+    }
+
+    if carry != 0 {
+        let new_node = Some(Box::new(ListNode {
+            val: carry,
+            next: None,
+        }));
+
+        if let Some(cur) = current {
+            cur.next = new_node;
+            current = &mut cur.next;
+        }
+    }
+
+    initial.unwrap().next
 }
 
 #[cfg(test)]
@@ -41,7 +82,8 @@ mod tests {
                     linked_list_from_vec(test_case[1].clone())
                 ),
                 linked_list_from_vec(test_case[2].clone())
-            )
+            );
+            println!("!!!!!\nTest case {test_case:?} successfull\n!!!!!");
         }
     }
 
