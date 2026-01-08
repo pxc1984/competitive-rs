@@ -1,5 +1,17 @@
 pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
-    todo!()
+    let mut nums1 = nums1.clone();
+    let mut nums2 = nums2.clone();
+    nums1.append(&mut nums2);
+    nums1.sort();
+    median(nums1)
+}
+
+fn median(arr: Vec<i32>) -> f64 {
+    if arr.len() % 2 == 0 {
+        return (arr[arr.len() / 2 - 1] + arr[arr.len() / 2]) as f64 / 2.;
+    } else {
+        return arr[arr.len() / 2] as f64;
+    }
 }
 
 #[cfg(test)]
