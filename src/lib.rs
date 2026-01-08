@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 #![allow(unused)]
+mod longest_palindrome;
 mod median_sorted_arrays;
 mod palindrome_number;
 mod add_two_numbers;
