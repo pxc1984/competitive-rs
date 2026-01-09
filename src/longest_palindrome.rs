@@ -1,41 +1,41 @@
 use std::collections::VecDeque;
 
 pub fn longest_palindrome(s: String) -> String {
-    let mut queue = populate_queue(&s);
-    while let Some(elem) = queue.pop_front() {
-        if elem.len() == 1 || is_palindrome(&elem) {
-            return elem;
-        }
+    if s.is_empty() {
+        return String::new();
     }
-    return "".to_string();
-}
 
-fn populate_queue(s: &String) -> VecDeque<String> {
-    let mut vec = Vec::new();
-    let len = s.len();
-    vec.push(s.clone());
-    for i in 0..s.len() {
-        for j in (i..=s.len()).rev() {
-            if i == j {
-                continue;
-            }
-            vec.push(s[i..j].to_string());
-        }
-    }
-    vec.sort_by_key(|x| x.len());
-    vec.reverse();
-    VecDeque::from(vec)
-}
-
-fn is_palindrome(s: &String) -> bool {
     let bytes = s.as_bytes();
     let len = bytes.len();
-    for i in 0..len / 2 {
-        if bytes[i] != bytes[len - i - 1] {
-            return false;
+    let (mut start, mut end) = (0, 0);
+
+    for i in 0..len {
+        let len1 = expand_around_center(bytes, i, i);
+        let len2 = expand_around_center(bytes, i, i + 1);
+
+        let max_len = len1.max(len2);
+
+        if max_len > end - start {
+            println!("{start} {end} {max_len} {len} {i}");
+            start = i - (max_len - 1) / 2;
+            end = i + max_len / 2;
         }
     }
-    true
+
+    s[start..=end].to_string()
+}
+
+fn expand_around_center(bytes: &[u8], left: usize, right: usize) -> usize {
+    let mut l = left as i32;
+    let mut r = right as i32;
+    let len = bytes.len() as i32;
+
+    while l >= 0 && r < len && bytes[l as usize] == bytes[r as usize] {
+        l -= 1;
+        r += 1;
+    }
+
+    (r - l - 1) as usize
 }
 
 #[cfg(test)]
@@ -53,13 +53,15 @@ mod tests {
             ("abb", "bb"),
         ];
 
-        for (input, expected) in test_cases {
+        for (n, (input, expected)) in test_cases.iter().enumerate() {
+            println!("Test {n} started");
             let out = longest_palindrome(input.to_string());
             assert_eq!(
                 out.len(),
                 expected.len(),
                 "out: \"{out}\", expected: \"{expected}\""
             );
+            println!("Test {n} successfull");
         }
     }
 }
