@@ -28,7 +28,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_length_of_longest_substring() {
+    fn test() {
         let inputs = ["abcabcbb", "bbbbb", "pwwkew"];
         let outputs = [3, 1, 3];
         for (&i, o) in inputs.iter().zip(outputs) {

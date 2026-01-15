@@ -18,7 +18,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_is_palindrome() {
+    fn test() {
         let test_cases = [
             (121, true),
             (-121, false),

@@ -35,7 +35,7 @@ pub mod tests {
     use super::*;
 
     #[test]
-    pub fn test_reverse() {
+    pub fn test() {
         let test_cases = vec![
             (123, 321),
             (-123, -321),

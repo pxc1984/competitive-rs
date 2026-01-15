@@ -95,7 +95,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_add_two_numbers() {
+    fn test() {
         let test_cases = [
             [vec![2, 4, 3], vec![5, 6, 4], vec![7, 0, 8]],
             [vec![0], vec![0], vec![0]],
