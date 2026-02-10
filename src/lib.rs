@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 #![allow(unused)]
+mod valid_parenthesis;
 mod reverse_integer;
 mod longest_palindrome;
 mod median_sorted_arrays;
